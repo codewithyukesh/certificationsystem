@@ -5,6 +5,7 @@ import './App.css';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import Settings from './components/Settings';
+import CompanyProfileEdit from './components/CompanyProfileEdit';
 
 const App = () => {
   return (
@@ -18,6 +19,8 @@ const App = () => {
 
         {/* Catch-all route */}
         <Route path="*" element={<Navigate to="/login" />} />
+        <Route path="/settings/company-profile" element={<CompanyProfileEdit />} />
+
       </Routes>
     </Router>
   );
