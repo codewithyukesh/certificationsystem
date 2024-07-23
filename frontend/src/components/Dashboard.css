@@ -1,0 +1,132 @@
+/* Dashboard.css */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f0f2f5;
+  }
+  
+  .sidebar {
+    width: 250px;
+    background-color: #282c34;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border-right: 2px solid #61dafb;
+  }
+  
+  .logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #61dafb;
+  }
+  
+  .info {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .company-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #e4e6eb;
+  }
+  
+  .company-address {
+    font-size: 14px;
+    color: #aab0b6;
+  }
+  
+  .divider {
+    margin: 20px 0;
+    border: 1px solid #61dafb;
+  }
+  
+  .certification-system h3 {
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: center;
+    color: #61dafb;
+  }
+  
+  .menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .menu li {
+    margin: 10px 0;
+  }
+  
+  .menu a {
+    text-decoration: none;
+    color: #fff;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .menu a:hover {
+    background-color: #61dafb;
+    color: #282c34;
+  }
+  
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #61dafb;
+    color: #282c34;
+    padding: 15px;
+  }
+  
+  .fiscal-year {
+    font-size: 16px;
+  }
+  
+  .user-profile {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #282c34;
+    color: #61dafb;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .profile-button:hover {
+    background-color: #61dafb;
+    color: #282c34;
+  }
+  
+  .content {
+    padding: 20px;
+    flex: 1;
+  }
+  
+  .footer {
+    background-color: #282c34;
+    color: #61dafb;
+    text-align: center;
+    padding: 10px;
+  }
+  
