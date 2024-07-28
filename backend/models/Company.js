@@ -1,22 +1,13 @@
+// models/Company.js
 const mongoose = require('mongoose');
 
 const companySchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  address: {
-    type: String,
-    required: true
-  },
-  logo: {
-    type: String, // Assuming the logo is stored as a URL
-    required: false
-  },
-  tagline: {
-    type: String,
-    required: false
-  }
+  name: { type: String, required: true },
+  secondaryName: { type: String },
+  address: { type: String, required: true },
+  logo: { type: String } // URL to the logo image
 });
 
-module.exports = mongoose.model('Company', companySchema);
+const Company = mongoose.model('Company', companySchema);
+
+module.exports = Company;

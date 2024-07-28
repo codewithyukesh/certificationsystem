@@ -1,28 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Header from './Header';
+import Footer from './Footer';
+import Sidebar from './Sidebar';
 import './CompanyProfileEdit.css';
 
 const CompanyProfileEdit = () => {
   const [company, setCompany] = useState({
     name: '',
+    secondaryName: '',
     address: '',
-    logo: '',
-    tagline: ''
+    logo: ''
   });
-  const navigate = useNavigate();
+  const [logoFile, setLogoFile] = useState(null);
 
   useEffect(() => {
-    const fetchCompanyDetails = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/company');
-        const data = await response.json();
-        setCompany(data);
-      } catch (error) {
-        console.error('Error fetching company details:', error);
-      }
-    };
-
-    fetchCompanyDetails();
+    axios.get('http://localhost:5000/api/company')
+      .then(response => {
+        if (response.data) {
+          setCompany(response.data);
+        }
+      })
+      .catch(error => {
+        console.error('There was an error fetching the company details!', error);
+      });
   }, []);
 
   const handleInputChange = (e) => {
@@ -30,68 +32,85 @@ const CompanyProfileEdit = () => {
     setCompany({ ...company, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleFileChange = (e) => {
+    setLogoFile(e.target.files[0]);
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      await fetch('http://localhost:5000/api/company', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(company),
-      });
-      navigate('/settings');
-    } catch (error) {
-      console.error('Error updating company details:', error);
+
+    const formData = new FormData();
+    formData.append('name', company.name);
+    formData.append('secondaryName', company.secondaryName);
+    formData.append('address', company.address);
+    if (logoFile) {
+      formData.append('logo', logoFile);
     }
+
+    axios.post('http://localhost:5000/api/company', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+      .then(response => {
+        setCompany(response.data);
+      })
+      .catch(error => {
+        console.error('There was an error updating the company details!', error);
+      });
   };
 
   return (
-    <div className="company-profile-edit">
-      <h2>Edit Company Profile</h2>
-      <form onSubmit={handleSubmit} className="company-form">
-        <div className="form-group">
-          <label htmlFor="name">Company Name:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={company.name}
-            onChange={handleInputChange}
-          />
+    <div className="dashboard-container">
+      <Sidebar />
+      <div className="main-content">
+        <Header />
+        <div className="form-content">
+          <h2>Edit Company Profile</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Company Name</label>
+              <input 
+                type="text" 
+                name="name" 
+                value={company.name} 
+                onChange={handleInputChange} 
+              />
+            </div>
+            <div className="form-group">
+              <label>Secondary Name</label>
+              <input 
+                type="text" 
+                name="secondaryName" 
+                value={company.secondaryName} 
+                onChange={handleInputChange} 
+              />
+            </div>
+            <div className="form-group">
+              <label>Address</label>
+              <input 
+                type="text" 
+                name="address" 
+                value={company.address} 
+                onChange={handleInputChange} 
+              />
+            </div>
+            <div className="form-group">
+              <label>Logo</label>
+              <input 
+                type="file" 
+                name="logo" 
+                onChange={handleFileChange} 
+              />
+              {company.logo && (
+                <img src={`http://localhost:5000${company.logo}`} alt="Company Logo" className="logo-preview" />
+              )}
+            </div>
+            <button type="submit">Save</button>
+          </form>
         </div>
-        <div className="form-group">
-          <label htmlFor="address">Company Address:</label>
-          <input
-            type="text"
-            id="address"
-            name="address"
-            value={company.address}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="logo">Company Logo URL:</label>
-          <input
-            type="text"
-            id="logo"
-            name="logo"
-            value={company.logo}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="tagline">Company Tagline:</label>
-          <input
-            type="text"
-            id="tagline"
-            name="tagline"
-            value={company.tagline}
-            onChange={handleInputChange}
-          />
-        </div>
-        <button type="submit" className="save-button">Save Changes</button>
-      </form>
+        <Footer />
+      </div>
     </div>
   );
 };

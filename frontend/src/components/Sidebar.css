@@ -1,61 +1,71 @@
+/* Sidebar.css */
+
 .sidebar {
-    width: 250px;
-    background-color: white;
-    padding: 20px;
-    border-right: 1px solid #ccc;
-  }
-  
-  .logo-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .logo {
-    font-size: 24px;
-    font-weight: bold;
-    margin-right: 10px;
-  }
-  
-  .info {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .company-name {
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .company-address {
-    font-size: 14px;
-    color: #777;
-  }
-  
-  .divider {
-    margin: 20px 0;
-  }
-  
-  .certification-system {
-    margin-bottom: 20px;
-  }
-  
-  .menu {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .menu li {
-    margin: 10px 0;
-  }
-  
-  .menu a {
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
-  }
-  
-  .menu a:hover {
-    color: skyblue;
-  }
-  
+  width: 250px;
+  background-color: white;
+  padding: 20px;
+  border-right: 1px solid #ccc;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.company-logo {
+  height: 100px;
+ border-radius: 50%;
+ margin-bottom: 10px;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center; /* Center-align text */
+}
+
+.company-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.company-secondary-name {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.company-address {
+  font-size: 14px;
+  color: #777;
+}
+
+.divider {
+  margin: 20px 0;
+}
+
+.certification-system {
+  margin-bottom: 20px;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+}
+
+.menu li {
+  margin: 10px 0;
+}
+
+.menu a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+.menu a:hover {
+  color: skyblue;
+}
