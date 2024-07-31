@@ -1,0 +1,124 @@
+.dashboard-container {
+  display: flex;
+}
+
+.main-content {
+  flex: 1;
+  margin: 0 20px;
+}
+
+.templates-content {
+  padding: 20px;
+}
+
+.templates-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.templates-table th, .templates-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.templates-table th {
+  background-color: #f4f4f4;
+}
+
+.templates-table td {
+  text-align: center;
+}
+
+.templates-table td.description {
+  font-size: 14px; /* Smaller font size for description */
+}
+
+.templates-table button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.view-button {
+  background-color: #28a745; /* Green */
+}
+
+.view-button:hover {
+  background-color: #218838;
+}
+
+.edit-button {
+  background-color: #ffc107; /* Yellow */
+}
+
+.edit-button:hover {
+  background-color: #e0a800;
+}
+
+.delete-button {
+  background-color: #dc3545; /* Red */
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.popup-content h3 {
+  margin: 0 0 10px;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Space between Yes and No buttons */
+}
+
+.popup-content button {
+  padding: 5px 10px;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.confirm-button {
+  background-color: #007bff; /* Blue */
+}
+
+.confirm-button:hover {
+  background-color: #0056b3;
+}
+
+.cancel-button {
+  background-color: #6c757d; /* Gray */
+}
+
+.cancel-button:hover {
+  background-color: #5a6268;
+}
+
+.error {
+  color: red;
+}

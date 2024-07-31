@@ -43,6 +43,8 @@ const Sidebar = () => {
         <li><a href="/certificates">Certificates</a></li>
          <li><a href="/add-template">Add Template</a></li>
         <li><a href="/templates">View Templates</a></li>
+        <li><a href="/user/templates">User Templates</a></li>
+
         <li><a href="/reports">Reports</a></li>
         <li><a href="/support">Support</a></li>
         <li><a href="/settings">Settings</a></li>

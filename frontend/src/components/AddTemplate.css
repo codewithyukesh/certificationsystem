@@ -1,0 +1,50 @@
+/* AddTemplate.css */
+
+.dashboard-container {
+    display: flex;
+  }
+  
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .add-template-content {
+    padding: 20px;
+  }
+  
+  .add-template-content h2 {
+    margin-bottom: 20px;
+  }
+  
+  .add-template-content form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .add-template-content form div {
+    margin-bottom: 10px;
+  }
+  
+  .add-template-content form label {
+    margin-bottom: 5px;
+  }
+  
+  .add-template-content form input,
+  .add-template-content form .ql-container {
+    padding: 8px;
+    font-size: 16px;
+  }
+  
+  .add-template-content form button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .error {
+    color: red;
+    margin-top: 10px;
+  }
+  

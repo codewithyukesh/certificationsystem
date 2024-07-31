@@ -1,0 +1,16 @@
+.user-template-editor-content {
+    padding: 20px;
+  }
+  
+  .user-template-editor-content h2 {
+    margin-bottom: 20px;
+  }
+  
+  .error {
+    color: red;
+  }
+  
+  button {
+    margin-top: 10px;
+  }
+  

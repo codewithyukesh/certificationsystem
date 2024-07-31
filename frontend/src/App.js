@@ -11,6 +11,10 @@ import CreateTemplate from './components/CreateTemplate';
 import Reports from './components/Reports';
 import AddTemplate from './components/AddTemplate';
 import TemplateList from './components/TemplateList';
+import TemplateView from './components/TemplateView';
+import TemplateEdit from './components/TemplateEdit';
+import UserTemplateSelection from './components/UserTemplateSelection';
+import UserTemplateEditor from './components/UserTemplateEditor';
 
 const App = () => {
   return (
@@ -26,6 +30,11 @@ const App = () => {
           <Route path="/reports" element={<Reports />} />
           <Route path="/add-template" element={<AddTemplate />} />
             <Route path="/templates" element={<TemplateList />} />
+        <Route path="/templates/add" element={<AddTemplate />} />
+        <Route path="/templates/:id" element={<TemplateView />} />
+        <Route path="/templates/edit/:id" element={<TemplateEdit />} />
+        <Route path="/user/templates" element={<UserTemplateSelection />} />
+            <Route path="/user/template/edit/:id" element={<UserTemplateEditor />} />
         {/* Catch-all route */}
         <Route path="*" element={<Navigate to="/login" />} />
         <Route path="/settings/company-profile" element={<CompanyProfileEdit />} />
