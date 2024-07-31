@@ -1,13 +1,20 @@
 const Template = require('../models/Template');
 
+// Add a new template
 const addTemplate = async (req, res) => {
+  const { templateName, content } = req.body;
+
   try {
-    const { title, content } = req.body;
-    const newTemplate = new Template({ title, content });
+    const newTemplate = new Template({
+      templateName,
+      content,
+      createdBy: req.user.username  // Ensure this field exists in your schema
+    });
+
     await newTemplate.save();
-    res.status(201).json(newTemplate);
+    res.status(201).json({ message: 'Template added successfully', template: newTemplate });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to add template', error });
+    res.status(500).json({ message: 'Error adding template', error: error.message });
   }
 };
 
@@ -16,11 +23,8 @@ const getTemplates = async (req, res) => {
     const templates = await Template.find();
     res.status(200).json(templates);
   } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch templates', error });
+    res.status(500).json({ message: 'Error retrieving templates', error: error.message });
   }
 };
 
-module.exports = {
-  addTemplate,
-  getTemplates,
-};
+module.exports = { addTemplate, getTemplates };

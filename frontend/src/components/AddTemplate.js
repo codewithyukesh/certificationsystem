@@ -1,53 +1,54 @@
-import React, { useState } from 'react';
 import axios from 'axios';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import './AddTemplate.css';
+import { useState } from 'react';
 
 const AddTemplate = () => {
-  const [title, setTitle] = useState('');
+  const [templateName, setTemplateName] = useState('');
   const [content, setContent] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const token = localStorage.getItem('token'); // Retrieve token from local storage
+
     try {
-      // Retrieve the token from local storage
-      const token = localStorage.getItem('token');
-
-      // Configure the headers to include the token
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      };
-
-      // Make the request with the token included
-      const response = await axios.post('http://localhost:5000/api/templates', { title, content }, config);
-
-      if (response.status === 201) {
-        alert('Template added successfully');
-      }
-    } catch (error) {
-      console.error('Error adding template', error);
+      const response = await axios.post(
+        'http://localhost:5000/api/templates',
+        { templateName, content },
+        { headers: { Authorization: `Bearer ${token}` } } // Include token in headers
+      );
+      console.log('Template added successfully:', response.data);
+      // Clear form or redirect as needed
+    } catch (err) {
+      console.error('Error adding template:', err.response ? err.response.data : err.message); // Log detailed error
+      setError(err.response ? err.response.data.message : 'Error adding template');
     }
   };
 
   return (
-    <div className="add-template-container">
-      <h2>Add New Template</h2>
+    <div>
+      <h1>Add Template</h1>
       <form onSubmit={handleSubmit}>
-        <label>Title</label>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-        <label>Content</label>
-        <ReactQuill value={content} onChange={setContent} />
+        <div>
+          <label>Template Name:</label>
+          <input
+            type="text"
+            value={templateName}
+            onChange={(e) => setTemplateName(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Content:</label>
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            required
+          />
+        </div>
         <button type="submit">Add Template</button>
       </form>
+      {error && <p>{error}</p>}
     </div>
   );
 };

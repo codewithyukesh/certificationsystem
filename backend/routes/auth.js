@@ -1,11 +1,10 @@
-// routes/auth.js
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 const router = express.Router();
-const JWT_SECRET = 'your_jwt_secret_key'; // Replace with your own secret
+const JWT_SECRET = 'my_jwt_secret_key'; // Ensure this matches with the one in auth.js
 
 // Register a new user
 router.post('/register', async (req, res) => {
@@ -37,7 +36,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Login a user (existing code)
+// Login a user
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 

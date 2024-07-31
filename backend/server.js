@@ -40,7 +40,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/company', companyRoutes);
 app.use('/api/templates', templateRoutes);
 app.use('/api/reports', reportRoutes); // Add this line for report routes
-
+ 
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import Header from './Header';
+ import Header from './Header';
 import Footer from './Footer';
 import Sidebar from './Sidebar';
 import './CompanyProfileEdit.css';
