@@ -36,7 +36,7 @@ const UserTemplateSelection = () => {
       <div className="main-content">
         <Header /> {/* Header component */}
         <div className="user-template-selection-content">
-          <h2>Select a Template</h2>
+          <h2>Select a Template</h2><br></br>
           <div className="template-cards">
             {templates.map((template) => (
               <div
