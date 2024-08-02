@@ -1,0 +1,47 @@
+/* src/components/ErrorModal.css */
+.error-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .error-modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 80%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+  
+  .error-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 10px; /* Smaller font size */
+    cursor: pointer;
+    color: #d9534f;
+     padding: 1px; /* Add some padding for better click area */
+  }
+  
+  .error-modal-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #d9534f;
+  }
+  
+  .error-modal-message {
+    font-size: 16px;
+  }
+  

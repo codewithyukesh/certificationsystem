@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Header from './Header'; // Import Header component
-import Footer from './Footer'; // Import Footer component
-import Sidebar from './Sidebar'; // Import Sidebar component
+import Header from './Header';
+import Footer from './Footer';
+import Sidebar from './Sidebar';
 import './UserTemplateSelection.css';
 
 const UserTemplateSelection = () => {
@@ -27,14 +27,14 @@ const UserTemplateSelection = () => {
   }, []);
 
   const handleTemplateClick = (id) => {
-    navigate(`/user/template/edit/${id}`);
+    navigate(`/preview-template/${id}`);
   };
 
   return (
     <div className="dashboard-container">
-      <Sidebar /> {/* Sidebar component */}
+      <Sidebar />
       <div className="main-content">
-        <Header /> {/* Header component */}
+        <Header />
         <div className="user-template-selection-content">
           <h2>Select a Template</h2><br></br>
           <div className="template-cards">
@@ -50,7 +50,7 @@ const UserTemplateSelection = () => {
             ))}
           </div>
         </div>
-        <Footer /> {/* Footer component */}
+        <Footer />
       </div>
     </div>
   );

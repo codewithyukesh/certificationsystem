@@ -15,6 +15,8 @@ import TemplateView from './components/TemplateView';
 import TemplateEdit from './components/TemplateEdit';
 import UserTemplateSelection from './components/UserTemplateSelection';
 import UserTemplateEditor from './components/UserTemplateEditor';
+import UserTemplatePreviewForm from './components/UserTemplatePreviewForm'; // Import the component
+import TemplateInputForm from './components/TemplateInputForm'; // Import the new component
 
 const App = () => {
   return (
@@ -35,6 +37,9 @@ const App = () => {
         <Route path="/templates/edit/:id" element={<TemplateEdit />} />
         <Route path="/user/templates" element={<UserTemplateSelection />} />
             <Route path="/user/template/edit/:id" element={<UserTemplateEditor />} />
+            {/* <Route path="/preview-template/:id" element={<UserTemplatePreviewForm />} /> New route */}
+            <Route path="/preview-template/:id" element={<TemplateInputForm />} />
+
         {/* Catch-all route */}
         <Route path="*" element={<Navigate to="/login" />} />
         <Route path="/settings/company-profile" element={<CompanyProfileEdit />} />

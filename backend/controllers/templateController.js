@@ -1,14 +1,17 @@
 const Template = require('../models/Template');
+const { extractPlaceholders } = require('../utils/templateUtils'); // Import the utility function
 
 // Add a new template
 const addTemplate = async (req, res) => {
   const { templateName, content } = req.body;
+  const placeholders = extractPlaceholders(content);
 
   try {
     const newTemplate = new Template({
       templateName,
       content,
-      createdBy: req.user.username  // Ensure this field exists in your schema
+      placeholders,
+      createdBy: req.user.username
     });
 
     await newTemplate.save();
@@ -17,6 +20,7 @@ const addTemplate = async (req, res) => {
     res.status(500).json({ message: 'Error adding template', error: error.message });
   }
 };
+
 
 // Get all templates
 const getTemplates = async (req, res) => {

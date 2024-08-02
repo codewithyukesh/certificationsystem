@@ -8,10 +8,22 @@ import Footer from './Footer';
 import Sidebar from './Sidebar';
 import './AddTemplate.css';
 
+// Utility function to extract placeholders from template content
+const extractPlaceholders = (content) => {
+  const regex = /{{\s*([a-zA-Z0-9_]+)\s*}}/g;
+  let match;
+  const placeholders = [];
+  while ((match = regex.exec(content)) !== null) {
+    placeholders.push(match[1]);
+  }
+  return placeholders;
+};
+
 const AddTemplate = () => {
   const [templateName, setTemplateName] = useState('');
   const [content, setContent] = useState('');
   const [error, setError] = useState('');
+  const [placeholders, setPlaceholders] = useState([]);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -20,9 +32,11 @@ const AddTemplate = () => {
     const token = localStorage.getItem('token'); // Retrieve token from local storage
 
     try {
+      // Extract placeholders from the content
+      const extractedPlaceholders = extractPlaceholders(content);
       const response = await axios.post(
         'http://localhost:5000/api/templates',
-        { templateName, content },
+        { templateName, content, placeholders: extractedPlaceholders },
         { headers: { Authorization: `Bearer ${token}` } } // Include token in headers
       );
       console.log('Template added successfully:', response.data);
@@ -76,7 +90,11 @@ const AddTemplate = () => {
               <label>Content:</label>
               <ReactQuill
                 value={content}
-                onChange={setContent}
+                onChange={(newContent) => {
+                  setContent(newContent);
+                  // Update placeholders when content changes
+                  setPlaceholders(extractPlaceholders(newContent));
+                }}
                 theme="snow"
                 modules={modules}
                 formats={formats}
