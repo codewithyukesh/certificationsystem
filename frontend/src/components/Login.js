@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [companyDetails, setCompanyDetails] = useState({});
   const navigate = useNavigate();
 
@@ -25,19 +26,43 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (username && password) {
-      try {
-        const response = await axios.post('http://localhost:5000/api/auth/login', { username, password });
-        if (response.status === 200) {
-          localStorage.setItem('token', response.data.token); // Store JWT token
-          alert('Login successful');
+
+    if (!username || !password) {
+      toast.error('Please fill out both fields');
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error('Password must be at least 6 characters long');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/login', { username, password });
+      if (response.status === 200) {
+        localStorage.setItem('token', response.data.token); // Store JWT token
+
+        // Show success toast and redirect immediately
+        toast.success('Login successful', {
+          autoClose: 1000, // Toast duration (1 second)
+          onClose: () => {
+            navigate('/dashboard'); // Redirect to dashboard
+          },
+        });
+
+        // Redirect immediately as well
+        setTimeout(() => {
           navigate('/dashboard'); // Redirect to dashboard
-        }
-      } catch (error) {
-        setError('Invalid credentials');
+        }, 1000); // Short delay to ensure toast is processed
       }
-    } else {
-      alert('Please fill out both fields');
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toast.error('Invalid username or password'); // Unauthorized
+      } else if (error.response && error.response.status === 500) {
+        toast.error('Server error. Please try again later.'); // Server error
+      } else {
+        toast.error('Network error. Please check your connection.'); // Network error
+      }
     }
   };
 
@@ -45,10 +70,18 @@ const Login = () => {
     <div className="login-container">
       <div className="left-side">
         <div className="logo-container">
-          <img src={`http://localhost:5000${companyDetails.logo}`} alt="Company Logo" className="company-logo" />
+          {companyDetails.logo && (
+            <img
+              src={`http://localhost:5000${companyDetails.logo}`}
+              alt="Company Logo"
+              className="company-logo"
+            />
+          )}
           <div className="info">
             <div className="company-name">{companyDetails.name}</div>
-            <div className="company-secondary-name">{companyDetails.secondaryName}</div>
+            {companyDetails.secondaryName && (
+              <div className="company-secondary-name">{companyDetails.secondaryName}</div>
+            )}
             <p className="company-address">{companyDetails.address}</p>
           </div>
         </div>
@@ -84,14 +117,13 @@ const Login = () => {
             aria-required="true"
           />
 
-          {error && <p className="error">{error}</p>} {/* Display error message */}
-
           <button type="submit">Login</button>
         </form>
       </div>
       <footer className="footer">
         <p>&copy; 2024 {companyDetails.name}. All rights reserved.</p>
       </footer>
+      <ToastContainer /> {/* Add ToastContainer to render the toast notifications */}
     </div>
   );
 };

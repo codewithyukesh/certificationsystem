@@ -17,15 +17,21 @@ import UserTemplateSelection from './components/UserTemplateSelection';
 import UserTemplateEditor from './components/UserTemplateEditor';
 import UserTemplatePreviewForm from './components/UserTemplatePreviewForm'; // Import the component
 import TemplateInputForm from './components/TemplateInputForm'; // Import the new component
+import FiscalYear from './components/FiscalYear';
+ 
 
 const App = () => {
+  const token = localStorage.getItem('token'); // Get the token from localStorage
+
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        {/* <PrivateRoute path="/dashboard" element={<Dashboard />} /> */}
+        <Route path="/dashboard" element={token ? <Dashboard /> : <Navigate to="/login" />} />
+        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
         <Route path="/settings" element={<Settings />} />
         <Route path="/templates" element={<Templates />} />
           <Route path="/create-template" element={<CreateTemplate />} />
@@ -39,10 +45,10 @@ const App = () => {
             <Route path="/user/template/edit/:id" element={<UserTemplateEditor />} />
             {/* <Route path="/preview-template/:id" element={<UserTemplatePreviewForm />} /> New route */}
             <Route path="/preview-template/:id" element={<TemplateInputForm />} />
-
-        {/* Catch-all route */}
-        <Route path="*" element={<Navigate to="/login" />} />
+            <Route path="/settings/fiscal-year" element={<FiscalYear />} />
         <Route path="/settings/company-profile" element={<CompanyProfileEdit />} />
+{/* Catch-all route */}
+<Route path="*" element={<Navigate to="/login" />} />
 
       </Routes>
     </Router>
