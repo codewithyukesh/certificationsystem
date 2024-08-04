@@ -50,8 +50,8 @@ const Header = () => {
     <header className="header">
       <div className="fiscal-year">Fiscal Year: {activeFiscalYear}</div>
       <div className="user-profile">
-        <span>Logged in as: {userName}</span>  &nbsp;
-        <span>Role: {userRole}</span>
+        <span>Hello: {userName}</span>  &nbsp;
+        <span> |  {userRole} </span>
         <button className="profile-button logout" onClick={handleLogout}>Logout</button>
       </div>
     </header>

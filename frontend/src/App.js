@@ -18,7 +18,8 @@ import UserTemplateEditor from './components/UserTemplateEditor';
 import UserTemplatePreviewForm from './components/UserTemplatePreviewForm'; // Import the component
 import TemplateInputForm from './components/TemplateInputForm'; // Import the new component
 import FiscalYear from './components/FiscalYear';
- 
+import SupportPage from './components/SupportPage';
+
 
 const App = () => {
   const token = localStorage.getItem('token'); // Get the token from localStorage
@@ -47,6 +48,8 @@ const App = () => {
             <Route path="/preview-template/:id" element={<TemplateInputForm />} />
             <Route path="/settings/fiscal-year" element={<FiscalYear />} />
         <Route path="/settings/company-profile" element={<CompanyProfileEdit />} />
+        <Route path="/support" element={<SupportPage />} />
+
 {/* Catch-all route */}
 <Route path="*" element={<Navigate to="/login" />} />
 
