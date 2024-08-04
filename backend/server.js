@@ -34,13 +34,13 @@ const authRoutes = require('./routes/auth');
 const companyRoutes = require('./routes/company');
 const templateRoutes = require('./routes/template');
 const reportRoutes = require('./routes/report');
- 
+const fiscalYearRoutes = require('./routes/fiscalYearRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/company', companyRoutes);
 app.use('/api/templates', templateRoutes);
 app.use('/api/reports', reportRoutes); // Add this line for report routes
- 
+app.use('/api/fiscal-years', fiscalYearRoutes); 
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
