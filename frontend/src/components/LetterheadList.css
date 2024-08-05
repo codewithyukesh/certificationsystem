@@ -28,7 +28,7 @@
   .add-button-container {
     display: flex;
     justify-content: center; /* Center horizontally */
-    /* margin-bottom: 20px; Add margin if needed */
+    margin-bottom: 20px; 
   }
   
   .add-button {
