@@ -38,6 +38,8 @@ const Sidebar = () => {
       <div className="certification-system">
         <h3>Certification System</h3>
       </div>
+      <hr className="divider" />
+
       <ul className="menu">
         <li><a href="/dashboard">Dashboard</a></li>
         <li><a href="/certificates">Certificates</a></li>
