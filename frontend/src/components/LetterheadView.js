@@ -38,7 +38,7 @@ const LetterheadView = () => {
   if (!letterhead) {
     return <div>No letterhead found</div>;
   }
-
+ 
   // Construct full URL for logo image
   const logoUrl = letterhead.logo ? `http://localhost:5000/${letterhead.logo}` : '';
 
