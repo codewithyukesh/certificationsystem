@@ -42,7 +42,7 @@ const Sidebar = () => {
 
       <ul className="menu">
         <li><a href="/dashboard">Dashboard</a></li>
-        <li><a href="/certificates">Certificates</a></li>
+        <li><a href="/letterhead-list">LetterheadList </a></li>
          <li><a href="/add-template">Add Template</a></li>
         <li><a href="/templates">View Templates</a></li>
         <li><a href="/user/templates">User Templates</a></li>

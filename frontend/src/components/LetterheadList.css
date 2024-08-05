@@ -1,13 +1,102 @@
-/* src/components/LetterheadList.css */
-.letterhead-list {
+.letterhead-list-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f5f5f5; /* Light grey background for the entire container */
+  }
+  
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff; /* White background for main content area */
+    border-radius: 8px; /* Rounded corners for modern look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  }
+  
+  .letterhead-list-content {
     padding: 20px;
   }
   
-  .letterhead-item {
-    margin-bottom: 10px;
+  .page-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333; /* Darker text color for contrast */
   }
   
-  button {
-    margin-left: 10px;
+  .add-button-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    /* margin-bottom: 20px; Add margin if needed */
+  }
+  
+  .add-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007bff; /* Primary button color */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 4px; /* Rounded corners for button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+  }
+  
+  .add-button:hover {
+    background-color: #0056b3; /* Darker shade for hover effect */
+  }
+  ul {
+    list-style: none; /* Remove bullet points */
+    padding: 0;
+    margin: 0;
+  }
+  
+  .letterhead-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0; /* Light grey border */
+    background-color: #ffffff; /* White background for each list item */
+    border-radius: 4px; /* Rounded corners for items */
+    margin-bottom: 10px; /* Space between items */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+  }
+  
+  .letterhead-item.active {
+    background-color: #d4edda; /* Light green background for active items */
+  }
+  
+  .button-group {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .button-group button {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .button-group .view-button {
+    background-color: #17a2b8; /* Turquoise color for the View button */
+    color: #ffffff; /* White text */
+  }
+  
+  .button-group .view-button:hover {
+    background-color: #138496; /* Darker shade for hover effect */
+  }
+  
+  .button-group button:hover {
+    opacity: 0.8;
+  }
+  
+  .button-group button:disabled {
+    cursor: not-allowed;
+    background-color: #cccccc; /* Grey background for disabled buttons */
+    color: #666666; /* Grey text for disabled buttons */
   }
   

@@ -1,0 +1,78 @@
+.letterhead-view-container {
+  display: flex;
+  height: 100vh;
+  background-color: #f5f5f5; /* Light grey background for the entire container */
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff; /* White background for main content area */
+  border-radius: 8px; /* Rounded corners for modern look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.letterhead-view-content {
+  padding: 20px;
+}
+
+.header-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 100px; /* Adjust size as needed */
+  height: auto;
+  margin-right: 20px; /* Space between logo and text */
+}
+
+.header-text {
+  flex: 1;
+}
+
+.company-name {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+}
+
+.secondary-name {
+  font-size: 18px;
+  text-align: center;
+  margin: 0;
+}
+
+.address {
+  font-size: 14px;
+  text-align: center;
+  margin: 0;
+}
+
+.header-divider, .content-divider {
+  border: 0;
+  border-top: 1px solid #e0e0e0; /* Light grey border */
+  margin: 20px 0; /* Space around the line */
+}
+
+.main-content-section {
+  padding: 20px;
+  /* Add any additional styles for main content if needed */
+}
+
+.footer-section {
+  padding: 20px;
+  text-align: center;
+}
+
+.footer-text {
+  font-size: 14px;
+  margin: 0;
+}
+
+.footer-section {
+  border-top: 1px solid #e0e0e0; /* Light grey border for separation */
+}

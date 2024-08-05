@@ -1,0 +1,29 @@
+.letterhead-list-container {
+    display: flex;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .letterhead-list-content {
+    padding: 20px;
+  }
+  
+  .add-button {
+    margin-bottom: 20px;
+  }
+  
+  .letterhead-item {
+    margin-bottom: 10px;
+  }
+  
+  .letterhead-item.active {
+    background-color: #d4edda;
+  }
+  
+  .letterhead-item.inactive {
+    background-color: #f8d7da;
+  }
+  
