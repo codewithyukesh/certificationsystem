@@ -70,3 +70,20 @@
     font-size: 16px;
     line-height: 1.5;
   }
+  @media print {
+    .letterhead-header, .letterhead-footer, .template-content {
+      width: 210mm; /* A4 width */
+      height: 297mm; /* A4 height */
+      margin: 0 auto;
+      padding: 10mm;
+      box-sizing: border-box;
+    }
+  
+    .letterhead-header {
+      border-bottom: 1px solid #000;
+    }
+  
+    .letterhead-footer {
+      border-top: 1px solid #000;
+    }
+  }

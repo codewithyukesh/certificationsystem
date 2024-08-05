@@ -43,6 +43,9 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('letterheadData');
+    localStorage.removeItem('__3g4_session_id');
+    localStorage.removeItem('loglevel');
     navigate('/login');
   };
 

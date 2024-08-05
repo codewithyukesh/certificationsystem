@@ -40,7 +40,22 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', { username, password });
       if (response.status === 200) {
-        localStorage.setItem('token', response.data.token); // Store JWT token
+        const { token, letterheadId } = response.data;
+        localStorage.setItem('token', token); // Store JWT token
+
+        // Fetch letterhead data and store it in local storage
+        try {
+          const letterheadResponse = await axios.get('http://localhost:5000/api/letterhead');
+          localStorage.setItem('letterheadData', JSON.stringify(letterheadResponse.data));
+        } catch (error) {
+          console.error('Error fetching letterhead data:', error);
+          toast.error('Error fetching letterhead data');
+        }
+
+        // Fetch and store active letterhead ID if available
+        if (letterheadId) {
+          localStorage.setItem('activeLetterheadId', letterheadId);
+        }
 
         // Show success toast and redirect immediately
         toast.success('Login successful', {
