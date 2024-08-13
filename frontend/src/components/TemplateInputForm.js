@@ -11,6 +11,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import './TemplateInputForm.css';
 
+// Function to generate HTML for the header
 const generateHeaderHTML = (letterhead) => `
   <div class="letterhead-header">
     <div class="header-left">
@@ -28,6 +29,7 @@ const generateHeaderHTML = (letterhead) => `
   </div>
 `;
 
+// Function to generate HTML for the footer
 const generateFooterHTML = (letterhead) => `
   <div class="letterhead-footer">
     ${letterhead.footerText1 ? `<p>${letterhead.footerText1}</p>` : ''}
@@ -114,7 +116,11 @@ const TemplateInputForm = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       toast.success('Template saved successfully!');
-      navigate('/user-templates');
+      
+      // Delay the navigation to allow the toast to display
+      setTimeout(() => {
+        navigate('/user/templates');
+      }, 1500); // 1.5-second delay
     } catch (error) {
       console.error('Error saving template:', error.response ? error.response.data : error.message);
       setError('Error saving template.');
@@ -124,9 +130,13 @@ const TemplateInputForm = () => {
 
   const handleSaveAndPrint = async () => {
     await handleSave();
-    handlePrint();
+
+    // Delay the print to allow the toast to display and navigation to complete
+    setTimeout(() => {
+      handlePrint();
+    }, 1500); // 1.5-second delay
   };
-  
+
   const handlePrint = () => {
     const printWindow = window.open('', '', 'height=800,width=800');
     printWindow.document.write('<html><head><title>Print</title>');
@@ -283,21 +293,17 @@ const TemplateInputForm = () => {
                     [{ 'header': '1' }, { 'header': '2' }],
                     ['bold', 'italic', 'underline'],
                     [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    [{ 'align': [] }],
                     ['link'],
-                    ['clean']
-                  ]
+                    ['clean'],
+                  ],
                 }}
-                readOnly={false}
               />
               <div dangerouslySetInnerHTML={{ __html: previewContent.footer }} />
-              <div className="modal-buttons">
-                <button onClick={handleSave}>Save</button>
-                <button onClick={handlePrint}>Print</button>
-                <button onClick={handleSaveAndPrint}>Save and Print</button>
-              </div>
+              <button onClick={handleSave}>Save</button>
+              <button onClick={handleSaveAndPrint}>Save and Print</button>
             </Modal>
           </div>
-          {error && <p className="error">{error}</p>}
         </div>
         <Footer />
       </div>
