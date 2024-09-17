@@ -1,20 +1,20 @@
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = 'my_jwt_secret_key'; // Ensure this matches with the one in auth.js
+const JWT_SECRET = 'my_jwt_secret_key'; // Use environment variables in production
 
 const authenticateToken = (req, res, next) => {
-  const authHeader = req.header('Authorization');
+  const authHeader = req.header('Authorization'); // Expecting 'Bearer <token>'
+  
   if (!authHeader) return res.status(401).json({ message: 'Access denied, no token provided' });
 
-  const token = authHeader.split(' ')[1]; // Extract the token from "Bearer <token>"
-
+  const token = authHeader.split(' ')[1]; // Extract token
   if (!token) return res.status(401).json({ message: 'Access denied, no token provided' });
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
+    req.user = decoded; // Add decoded user info to request object
     next();
-  } catch (ex) {
-    res.status(400).json({ message: 'Invalid token' });
+  } catch (error) {
+    return res.status(400).json({ message: 'Invalid token' });
   }
 };
 

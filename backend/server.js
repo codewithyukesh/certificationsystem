@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const fs = require('fs');
+const fs = require('fs'); 
 const path = require('path');
 const bodyParser = require('body-parser');
  
@@ -37,6 +37,7 @@ const reportRoutes = require('./routes/report');
 const fiscalYearRoutes = require('./routes/fiscalYearRoutes');
 const letterheadRoutes = require('./routes/letterheadRoutes');
 const savedTemplatesRoute = require('./routes/savedTemplates');
+const userRoutes = require('./routes/userRoutes'); // Import user routes
 
 app.use('/api/auth', authRoutes);
 app.use('/api/company', companyRoutes);
@@ -45,7 +46,7 @@ app.use('/api/reports', reportRoutes); // Add this line for report routes
 app.use('/api/fiscal-years', fiscalYearRoutes); 
 app.use('/api/letterhead', letterheadRoutes);
 app.use('/api/saved-templates', savedTemplatesRoute);
-
+app.use('/api/users', userRoutes); // For fetching logged-in user's info
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

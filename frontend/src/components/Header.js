@@ -35,7 +35,7 @@ const Header = () => {
         setUserName('Error');
         setUserRole('Error');
       }
-    };
+    }; 
 
     fetchActiveFiscalYear();
     fetchUserDetails();
@@ -53,8 +53,8 @@ const Header = () => {
     <header className="header">
       <div className="fiscal-year">Fiscal Year: {activeFiscalYear}</div>
       <div className="user-profile">
-        <span>Hello: {userName}</span>  &nbsp;
-        <span> |  {userRole} </span>
+        <span>Hi, {userName}</span>  &nbsp;
+        <span> ( {userRole} ) </span>
         <button className="profile-button logout" onClick={handleLogout}>Logout</button>
       </div>
     </header>
