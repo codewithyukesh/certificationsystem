@@ -1,0 +1,30 @@
+.issued-templates-container {
+  display: flex;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  padding: 20px;
+  /* margin-left: 220px; Adjust based on Sidebar width */
+}
+
+.templates-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.templates-table th,
+.templates-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.templates-table th {
+  background-color: #f4f4f4;
+  text-align: left;
+}

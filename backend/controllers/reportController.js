@@ -1,36 +1,33 @@
-// const UserData = require('../models/UserData');
-// const Template = require('../models/Template');
+const Template = require('../models/Template');
+const SavedTemplate = require('../models/SavedTemplate');
+const User = require('../models/User');
 
-// exports.getAllReports = async (req, res) => {
-//   try {
-//     const userData = await UserData.find().populate('templateId');
-//     res.status(200).json(userData);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-// exports.getReportById = async (req, res) => {
-//   const { id } = req.params;
-
-//   try {
-//     const userData = await UserData.findById(id).populate('templateId');
-//     if (!userData) return res.status(404).json({ message: 'Report not found' });
-//     res.status(200).json(userData);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-const getReport = async (req, res) => {
+// Get report data for templates
+exports.getReportTemplates = async (req, res) => {
     try {
-      // Add logic to fetch the report data
-      res.status(200).json({ message: 'Report data' });
+        const templates = await Template.find({});
+        res.json(templates);
     } catch (error) {
-      res.status(500).json({ message: 'Error fetching report', error });
+        res.status(500).json({ message: error.message });
     }
-  };
-  
-  module.exports = {
-    getReport,
-  };
-  
+};
+
+// Get report data for saved templates
+exports.getReportSavedTemplates = async (req, res) => {
+    try {
+        const savedTemplates = await SavedTemplate.find({});
+        res.json(savedTemplates);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Get report data for users
+exports.getReportUsers = async (req, res) => {
+    try {
+        const users = await User.find({});
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};

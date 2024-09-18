@@ -1,10 +1,14 @@
+// models/Report.js
 const mongoose = require('mongoose');
 
-const ReportSchema = new mongoose.Schema({
-  templateId: { type: mongoose.Schema.Types.ObjectId, ref: 'Template', required: true },
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  filledContent: { type: String, required: true },
-  placeholders: { type: Map, of: String, required: true },
-}, { timestamps: true });
+const reportSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    issuedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    templateId: { type: mongoose.Schema.Types.ObjectId, ref: 'Template' },
+    savedTemplateId: { type: mongoose.Schema.Types.ObjectId, ref: 'SavedTemplate' },
+    issuedOn: { type: Date, default: Date.now },
+    // Add other fields as needed
+});
 
-module.exports = mongoose.model('Report', ReportSchema);
+module.exports = mongoose.model('Report', reportSchema);

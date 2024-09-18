@@ -41,7 +41,7 @@ const TemplateInputForm = () => {
   const { id } = useParams();
   const [template, setTemplate] = useState(null);
   const [inputData, setInputData] = useState({});
-  const [previewContent, setPreviewContent] = useState('');
+  const [previewContent, setPreviewContent] = useState({ header: '', body: '', footer: '' });
   const [showModal, setShowModal] = useState(false);
   const [editorContent, setEditorContent] = useState('');
   const [error, setError] = useState('');
@@ -112,11 +112,17 @@ const TemplateInputForm = () => {
     try {
       await axios.post(
         'http://localhost:5000/api/saved-templates',
-        { templateId: id, inputData },
+        { 
+          templateId: id, 
+          inputData, 
+          isIssued: true, 
+          templateTitle: template.templateName,
+          templateDescription: template.content // Replace with actual description if needed
+        },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       toast.success('Template saved successfully!');
-      
+
       // Delay the navigation to allow the toast to display
       setTimeout(() => {
         navigate('/user/templates');
@@ -140,7 +146,7 @@ const TemplateInputForm = () => {
   const handlePrint = () => {
     const printWindow = window.open('', '', 'height=800,width=800');
     printWindow.document.write('<html><head><title>Print</title>');
-    
+
     printWindow.document.write('<style>');
     printWindow.document.write(`
       @media print {
@@ -268,45 +274,39 @@ const TemplateInputForm = () => {
           <h2>{template.templateName}</h2>
           <form>
             {template.placeholders.map((placeholder) => (
-              <div key={placeholder}>
-                <label>{placeholder}:</label>
+              <div key={placeholder} className="form-group">
+                <label htmlFor={placeholder}>{placeholder}:</label>
                 <input
                   type="text"
+                  id={placeholder}
                   name={placeholder}
                   value={inputData[placeholder] || ''}
                   onChange={handleInputChange}
-                  required
                 />
               </div>
             ))}
+            <div className="form-buttons">
+              <button type="button" onClick={handlePreview} className="btn btn-primary">
+                Preview
+              </button>
+              <button type="button" onClick={handleSave} className="btn btn-success">
+                Save
+              </button>
+              <button type="button" onClick={handleSaveAndPrint} className="btn btn-warning">
+                Save and Print
+              </button>
+            </div>
           </form>
-          <button onClick={handlePreview}>Preview</button>
-          <div className="preview-container">
-            <Modal show={showModal} onClose={() => setShowModal(false)}>
-              <h3>Preview</h3>
-              <div dangerouslySetInnerHTML={{ __html: previewContent.header }} />
-              <ReactQuill
-                value={editorContent}
-                onChange={setEditorContent}
-                modules={{
-                  toolbar: [
-                    [{ 'header': '1' }, { 'header': '2' }],
-                    ['bold', 'italic', 'underline'],
-                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                    [{ 'align': [] }],
-                    ['link'],
-                    ['clean'],
-                  ],
-                }}
-              />
-              <div dangerouslySetInnerHTML={{ __html: previewContent.footer }} />
-              <button onClick={handleSave}>Save</button>
-              <button onClick={handleSaveAndPrint}>Save and Print</button>
-            </Modal>
-          </div>
         </div>
         <Footer />
       </div>
+      <Modal show={showModal} onClose={() => setShowModal(false)}>
+        <ReactQuill value={editorContent} readOnly={true} theme="snow" />
+        <div className="modal-buttons">
+          <button onClick={handleSave} className="btn btn-success">Save</button>
+          <button onClick={handlePrint} className="btn btn-warning">Print</button>
+        </div>
+      </Modal>
     </div>
   );
 };

@@ -1,0 +1,24 @@
+.unauthorized-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .main-content {
+    flex: 1;
+    
+  }
+  
+  .unauthorized-content {
+    text-align: center;
+    margin-top: 100px;
+  }
+  
+  .unauthorized-content h1 {
+    font-size: 48px;
+    color: red;
+  }
+  
+  .unauthorized-content p {
+    font-size: 24px;
+  }
+  
