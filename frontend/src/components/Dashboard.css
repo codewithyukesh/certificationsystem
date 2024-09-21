@@ -31,7 +31,12 @@
 .metric-card:hover {
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Hover effect */
 }
-
+.metric-card p {
+  /* text-align: center; */
+margin: 10px ;
+font-weight: bold;
+color: #141414;
+}
 .quick-links {
   margin: 20px 0;
 }
