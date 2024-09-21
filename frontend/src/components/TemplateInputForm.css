@@ -1,7 +1,9 @@
 .dashboard-container {
   display: flex;
 }
-
+ .modal-buttons button{
+  margin: 10px;
+ }
 .main-content {
   flex: 1;
   /* padding: 20px; */

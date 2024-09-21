@@ -10,6 +10,8 @@
 
 .user-template-selection-content {
   padding: 20px;
+  margin-bottom:2rem;
+
 }
 
 .template-cards {
@@ -25,7 +27,8 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: transform 0.2s;
- }
+  position: relative;
+}
 
 .template-card:hover {
   transform: scale(1.05);
@@ -35,6 +38,53 @@
   margin: 0;
   font-size: 18px;
   text-align: center;
+}
+
+.usage-count {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 0.9em;
+  color: #ff0000;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+.usage-count:hover {
+  transform: scale(1.1);
+}
+
+.search-input {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  /* max-width: 300px; */
+/* align-self: center; */
+}
+
+.sort-options {
+  margin-bottom: 20px;
+}
+
+.sort-options button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sort-options button:hover {
+  background-color: #0056b3;
 }
 
 @media (max-width: 768px) {

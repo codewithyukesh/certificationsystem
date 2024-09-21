@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Sidebar.css';
 
@@ -11,17 +12,17 @@ const Sidebar = () => {
   });
   
   const [userRole, setUserRole] = useState('');
- 
+
   // Function to fetch user details (including role)
   const fetchUserDetails = async () => {
     try {
       const response = await axios.get('http://localhost:5000/api/users/me', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
-       setUserRole(response.data.role);  // Set the user's role
+      setUserRole(response.data.role);  // Set the user's role
     } catch (err) {
       console.error('Error fetching user details', err);
-       setUserRole('Error');
+      setUserRole('Error');
     }
   };
 
@@ -36,7 +37,7 @@ const Sidebar = () => {
       .catch(error => {
         console.error('There was an error fetching the company details!', error);
       });
-    
+
     // Fetch the user details (role and username)
     fetchUserDetails();
   }, []);
@@ -45,9 +46,11 @@ const Sidebar = () => {
     <div className="sidebar">
       {/* Company logo and details */}
       <div className="logo-container">
-        {company.logo && (
-          <img src={`http://localhost:5000${company.logo}`} alt="Company Logo" className="company-logo" />
-        )}
+        <Link to="/dashboard">
+          {company.logo && (
+            <img src={`http://localhost:5000${company.logo}`} alt="Company Logo" className="company-logo" />
+          )}
+        </Link>
         <div className="info">
           <div className="company-name">{company.name}</div>
           <div className="company-secondary-name">{company.secondaryName}</div>
@@ -63,34 +66,34 @@ const Sidebar = () => {
 
       {/* Sidebar Menu */}
       <ul className="menu">
-        <li><a href="/dashboard">Dashboard</a></li>
+        <li><Link to="/dashboard">Dashboard</Link></li>
         
         {/* Show these only if the user is an admin */}
         {userRole === 'admin' ? (
           <>
-            <li><a href="/letterhead-list">LetterheadList</a></li>
-            <li><a href="/add-template">Add Template</a></li>
-            <li><a href="/templates">View Templates</a></li>
+            <li><Link to="/letterhead-list">Letterhead List</Link></li>
+            <li><Link to="/add-template">Add Template</Link></li>
+            <li><Link to="/templates">View Templates</Link></li>
           </>
         ) : (
           <>
             {/* Keep the structure but hide them visually for non-admins */}
-            <li style={{ display: 'none' }}><a href="/letterhead-list">LetterheadList</a></li>
-            <li style={{ display: 'none' }}><a href="/add-template">Add Template</a></li>
-            <li style={{ display: 'none' }}><a href="/templates">View Templates</a></li>
+            <li style={{ display: 'none' }}><Link to="/letterhead-list">Letterhead List</Link></li>
+            <li style={{ display: 'none' }}><Link to="/add-template">Add Template</Link></li>
+            <li style={{ display: 'none' }}><Link to="/templates">View Templates</Link></li>
           </>
         )}
 
-        <li><a href="/user/templates">Templates List</a></li>
-        <li><a href="/issued-templates">Issued Templates </a></li>
-        <li><a href="/reports">Reports</a></li>
-        <li><a href="/support">Support</a></li>
+        <li><Link to="/user/templates">Templates List</Link></li>
+        <li><Link to="/issued-templates">Issued Templates</Link></li>
+        <li><Link to="/reports">Reports</Link></li>
+        <li><Link to="/support">Support</Link></li>
 
         {/* Show Settings only for admin */}
         {userRole === 'admin' ? (
-          <li><a href="/settings">Settings</a></li>
+          <li><Link to="/settings">Settings</Link></li>
         ) : (
-          <li style={{ display: 'none' }}><a href="/settings">Settings</a></li>
+          <li style={{ display: 'none' }}><Link to="/settings">Settings</Link></li>
         )}
       </ul>
     </div>

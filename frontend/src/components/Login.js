@@ -100,15 +100,15 @@ const Login = () => {
             <p className="company-address">{companyDetails.address}</p>
           </div>
         </div>
-        <div className="buttons">
+        {/* <div className="buttons">
           <button>Apply for Certificate</button>
           <button>Check Status</button>
           <button>Verify Certificate</button>
-        </div>
+        </div> */}
       </div>
       <div className="right-side">
         <h2>Certification System</h2>
-        <p>Your tagline goes here</p>
+        <p>Efficiency and Excellence in Certification</p>
         <form className="login-form" onSubmit={handleSubmit}>
           <label htmlFor="username">Username:</label>
           <input

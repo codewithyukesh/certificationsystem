@@ -7,9 +7,15 @@ import Sidebar from './Sidebar';
 import Modal from './Modal';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import './TemplateInputForm.css';
+import QuillTable from 'quill-table';
+
+// Register the table module
+Quill.register({
+  'modules/table': QuillTable,
+});
 
 // Function to generate HTML for the header
 const generateHeaderHTML = (letterhead) => `
@@ -68,9 +74,15 @@ const TemplateInputForm = () => {
 
   const initializeInputData = (placeholders) => {
     const initialData = {};
+    const seenPlaceholders = new Set(); // Track already added placeholders
+
     placeholders.forEach((placeholder) => {
-      initialData[placeholder] = '';
+      if (!seenPlaceholders.has(placeholder)) { // Only add if not already added
+        initialData[placeholder] = '';
+        seenPlaceholders.add(placeholder); // Mark as added
+      }
     });
+
     setInputData(initialData);
   };
 
@@ -121,8 +133,12 @@ const TemplateInputForm = () => {
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      
+      // Increment the usage count
+      await incrementTemplateUsage(id);
+  
       toast.success('Template saved successfully!');
-
+  
       // Delay the navigation to allow the toast to display
       setTimeout(() => {
         navigate('/user/templates');
@@ -133,7 +149,19 @@ const TemplateInputForm = () => {
       toast.error('Error saving template.');
     }
   };
+  
+  const incrementTemplateUsage = async (templateId) => {
+    const token = localStorage.getItem('token');
+    try {
+      await axios.post(`http://localhost:5000/api/templates/${templateId}/use`, {}, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+    } catch (error) {
+      console.error('Error incrementing template usage:', error.response ? error.response.data : error.message);
+    }
+  };
 
+  
   const handleSaveAndPrint = async () => {
     await handleSave();
 
@@ -273,7 +301,7 @@ const TemplateInputForm = () => {
         <div className="template-input-form-content">
           <h2>{template.templateName}</h2>
           <form>
-            {template.placeholders.map((placeholder) => (
+            {Object.keys(inputData).map((placeholder) => ( // Render unique placeholders
               <div key={placeholder} className="form-group">
                 <label htmlFor={placeholder}>{placeholder}:</label>
                 <input
@@ -301,7 +329,25 @@ const TemplateInputForm = () => {
         <Footer />
       </div>
       <Modal show={showModal} onClose={() => setShowModal(false)}>
-        <ReactQuill value={editorContent} readOnly={true} theme="snow" />
+        <div className="preview-content">
+          <div dangerouslySetInnerHTML={{ __html: previewContent.header }} />
+          <ReactQuill 
+            value={editorContent} 
+            onChange={(content) => setEditorContent(content)} 
+            theme="snow" 
+            modules={{
+              toolbar: [
+                [{ header: [1, 2, false] }],
+                ['bold', 'italic', 'underline'],
+                ['link', 'image'],
+                [{ list: 'ordered' }, { list: 'bullet' }],
+                ['clean'],
+                [{ 'table': 'insert' }]
+              ],
+            }}
+          />
+          <div dangerouslySetInnerHTML={{ __html: previewContent.footer }} />
+        </div>
         <div className="modal-buttons">
           <button onClick={handleSave} className="btn btn-success">Save</button>
           <button onClick={handlePrint} className="btn btn-warning">Print</button>

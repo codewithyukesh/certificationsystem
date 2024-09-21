@@ -165,7 +165,7 @@ const Reports = () => {
                                     <td>{index + 1}</td>
                                     <td>{item.templateTitle || 'N/A'}</td>
                                     <td>{item.templateDescription || 'N/A'}</td>
-                                    <td>{users[item.userId] || 'Unknown'}</td>
+                                    <td>{item.username ? item.username : 'Unknown'}</td> {/* Access the populated username */}
                                     <td>{item.savedAt ? new Date(item.savedAt).toLocaleDateString() : 'N/A'}</td>
                                 </tr>
                             ))}

@@ -1,94 +1,117 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './Login.css';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './Register.css';
 
 const Register = () => {
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('user');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (username && password) {
-      try {
-        const response = await axios.post('http://localhost:5000/api/auth/register', { username, password, role });
-        if (response.status === 201) {
-          localStorage.setItem('token', response.data.token); // Store JWT token
-          alert('Registration successful');
-          navigate('/dashboard'); // Redirect to dashboard
-        }
-      } catch (error) {
-        setError('Registration failed: ' + (error.response?.data?.message || error.message));
+
+    if (!fullName || !email || !username || !password) {
+      toast.error('All fields are required.');
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error('Password must be at least 6 characters long.');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/register', {
+        fullName,
+        email,
+        username,
+        password,
+        role,
+      });
+
+      if (response.status === 201) {
+        toast.success('Registration successful');
+        navigate('/dashboard'); // Redirect to dashboard
       }
-    } else {
-      alert('Please fill out all fields');
+    } catch (error) {
+      toast.error('Registration failed. Try again later.');
     }
   };
 
   return (
     <div className="register-container">
-      <div className="left-side">
-        <div className="logo-container">
-          <div className="logo">LOGO</div>
-          <div className="info">
-            <div className="company-name">Company Name</div>
-            <p className="company-address">1234 Address St, City, Country</p>
-          </div>
-        </div>
-        <div className="buttons">
-          <button>Apply for Certificate</button>
-          <button>Check Status</button>
-          <button>Verify Certificate</button>
-        </div>
-      </div>
-      <div className="right-side">
-        <h2>Register for Certification System</h2>
-        <p>Your tagline goes here</p>
+      <div className="form-container">
+        <h2>Create Your Account</h2>
+        <p>Fill in the details below to register</p>
         <form className="register-form" onSubmit={handleSubmit}>
-          <label htmlFor="username">Username:</label>
-          <input 
-            type="text" 
-            id="username" 
-            name="username" 
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required 
-            aria-required="true"
-          />
+          <div className="form-group">
+            <label htmlFor="fullName">Full Name</label>
+            <input
+              type="text"
+              id="fullName"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              required
+              placeholder="Enter your full name"
+            />
+          </div>
 
-          <label htmlFor="password">Password:</label>
-          <input 
-            type="password" 
-            id="password" 
-            name="password" 
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required 
-            aria-required="true"
-          />
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="Enter your email"
+            />
+          </div>
 
-          <label htmlFor="role">Role:</label>
-          <select 
-            id="role" 
-            name="role" 
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-          >
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-          </select>
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              placeholder="Choose a username"
+            />
+          </div>
 
-          {error && <p className="error">{error}</p>} {/* Display error message */}
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="Create a password"
+            />
+          </div>
 
-          <button type="submit">Register</button>
+          <div className="form-group">
+            <label htmlFor="role">Role</label>
+            <select id="role" value={role} onChange={(e) => setRole(e.target.value)}>
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+
+          <button type="submit" className="submit-btn">
+            Register
+          </button>
         </form>
+        <ToastContainer />
       </div>
-      <footer className="footer">
-        <p>&copy; 2024 Company Name. All rights reserved.</p>
-      </footer>
     </div>
   );
 };

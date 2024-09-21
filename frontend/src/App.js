@@ -22,7 +22,8 @@ import LetterheadList from './components/LetterheadList';
 import LetterheadForm from './components/LetterheadForm';
 import LetterheadView from './components/LetterheadView';
 import Unauthorized from './components/Unauthorized';
-import IssuedTemplates from './components/IssuedTemplates'; // Import IssuedTemplates component
+import IssuedTemplates from './components/IssuedTemplates';
+import ManageUsers from './components/ManageUsers';
 
 const App = () => {
   const [userRole, setUserRole] = useState('');
@@ -38,7 +39,7 @@ const App = () => {
         setUserRole(response.data.role);
       } catch (error) {
         console.error('Error fetching user details', error);
-        setUserRole('guest'); // Handle errors and set default role
+        setUserRole('guest');
       } finally {
         setLoading(false);
       }
@@ -52,7 +53,7 @@ const App = () => {
   }, [token]);
 
   const protectAdminRoutes = (component) => {
-    if (loading) return <div>Loading...</div>; // Show loading while fetching role
+    if (loading) return <div>Loading...</div>;
     return userRole === 'admin' ? component : <Navigate to="/unauthorized" />;
   };
 
@@ -73,6 +74,7 @@ const App = () => {
         <Route path="/letterhead/add" element={token ? protectAdminRoutes(<LetterheadForm />) : <Navigate to="/login" />} />
         <Route path="/letterhead/edit/:id" element={token ? protectAdminRoutes(<LetterheadForm />) : <Navigate to="/login" />} />
         <Route path="/letterhead/view/:id" element={token ? protectAdminRoutes(<LetterheadView />) : <Navigate to="/login" />} />
+        <Route path="/manage-users" element={token ? protectAdminRoutes(<ManageUsers />) : <Navigate to="/login" />} />
 
         {/* Routes accessible to all authenticated users */}
         <Route path="/templates" element={token ? <Templates /> : <Navigate to="/login" />} />
@@ -83,7 +85,7 @@ const App = () => {
         <Route path="/user/templates" element={token ? <UserTemplateSelection /> : <Navigate to="/login" />} />
         <Route path="/user/template/edit/:id" element={token ? <UserTemplateEditor /> : <Navigate to="/login" />} />
         <Route path="/preview-template/:id" element={token ? <TemplateInputForm /> : <Navigate to="/login" />} />
-        <Route path="/issued-templates" element={token ? <IssuedTemplates /> : <Navigate to="/login" />} /> {/* Add this line for issued templates */}
+        <Route path="/issued-templates" element={token ? <IssuedTemplates /> : <Navigate to="/login" />} />
         <Route path="/reports" element={token ? <Reports /> : <Navigate to="/login" />} />
         <Route path="/support" element={token ? <SupportPage /> : <Navigate to="/login" />} />
 
