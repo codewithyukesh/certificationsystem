@@ -13,10 +13,22 @@ const UserTemplateSelection = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+
+    const fetchLoggedInUser = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/users/me', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setLoggedInUserId(response.data._id);
+      } catch (error) {
+        console.error('Error fetching logged-in user:', error);
+      }
+    };
 
     const fetchTemplates = async () => {
       try {
@@ -56,7 +68,12 @@ const UserTemplateSelection = () => {
 
     const fetchData = async () => {
       setLoading(true);
-      await Promise.all([fetchTemplates(), fetchMostUsedTemplates(), fetchUserMostUsedTemplates()]);
+      await Promise.all([
+        fetchLoggedInUser(),
+        fetchTemplates(),
+        fetchMostUsedTemplates(),
+        fetchUserMostUsedTemplates()
+      ]);
       setLoading(false);
     };
 
@@ -96,19 +113,25 @@ const UserTemplateSelection = () => {
           <h3>Most Used by You</h3>
           <div className="template-cards">
             {userMostUsedTemplates.length > 0 ? (
-              userMostUsedTemplates.map((template) => (
-                <div
-                  key={template._id}
-                  className="template-card"
-                  onClick={() => navigate(`/preview-template/${template._id}`)}
-                  style={{ backgroundColor: getRandomColor() }}
-                >
-                  <div className="usage-count">
-                    {template.usageCount} uses
+              userMostUsedTemplates.map((template) => {
+                const currentUserUsage = template.userUsage.find(
+                  (usage) => usage.userId.toString() === loggedInUserId
+                );
+
+                return (
+                  <div
+                    key={template._id}
+                    className="template-card"
+                    onClick={() => navigate(`/preview-template/${template._id}`)}
+                    style={{ backgroundColor: getRandomColor() }}
+                  >
+                    <div className="usage-count">
+                      {currentUserUsage ? currentUserUsage.count : 0} times
+                    </div>
+                    <h3>{template.templateName}</h3>
                   </div>
-                  <h3>{template.templateName}</h3>
-                </div>
-              ))
+                );
+              })
             ) : (
               <p>No templates used by you found.</p>
             )}
