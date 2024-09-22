@@ -1,0 +1,58 @@
+.search-input {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.sort-options {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sort-options select {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.export-buttons-container {
+    margin-left: 10px;
+}
+
+.export-button {
+    padding: 10px 15px;
+    border-radius: 4px;
+    border: none;
+    background-color: rgb(255, 69, 58); /* Blue */
+    color: white;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.export-button:hover {
+    background-color: rgb(179, 13, 4);
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.report-table th, .report-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.report-table th {
+    background-color: #f4f4f4;
+    text-align: left;
+}
+
+.report-table td {
+    text-align: left;
+}

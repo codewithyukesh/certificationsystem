@@ -1,0 +1,91 @@
+/* ReportUsers.css */
+
+/* General styles for the report table */
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.report-table th,
+.report-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.report-table th {
+    background-color: #f4f4f4;
+}
+
+/* Search input styles */
+.search-input {
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Sort options styles */
+.sort-options {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sort-options select,
+.sort-options button {
+    padding: 10px; /* Make padding consistent */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px; /* Add margin between elements */
+    height: 40px; /* Set a fixed height for both */
+}
+
+.sort-options button {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.sort-options button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .sort-options {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sort-options select,
+    .sort-options button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+.export-button {
+    margin: 10px 0;
+    padding: 10px 15px;
+    background-color: rgb(255, 69, 58); /* Bootstrap primary color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.export-button:hover {
+    background-color: rgb(179, 13, 4); /* Darker shade on hover */
+}
+
+.export-buttons-container {
+    display: flex;
+    justify-content: flex-end; /* Aligns items to the right */
+    margin-top: 20px; /* Add some space above */
+}
+/* .btnexp {
+    padding: 10px;
+} */
