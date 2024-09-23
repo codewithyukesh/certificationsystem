@@ -32,6 +32,7 @@ const savedTemplateSchema = new mongoose.Schema({
     type: Boolean,
     default: false, // Ensure this field is default to false
   },
+  // savedBy: { type: Schema.Types.ObjectId, ref: 'User' }, // Reference to User model
 
 });
 

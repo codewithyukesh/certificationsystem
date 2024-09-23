@@ -36,10 +36,11 @@ const ReportSavedTemplates = () => {
 
     const handleSearch = (data) => {
         if (!searchTerm) return data;
-        return data.filter(template =>
-            template.templateTitle.toLowerCase().includes(searchTerm.toLowerCase())
+        return data.filter(template => 
+            template.templateTitle && template.templateTitle.toLowerCase().includes(searchTerm.toLowerCase())
         );
     };
+    
 
     const handleSort = (data) => {
         return data.sort((a, b) => {
@@ -182,7 +183,7 @@ const ReportSavedTemplates = () => {
                             <td>{index + 1}</td>
                             <td>{savedTemplate.templateTitle || 'N/A'}</td>
                             <td>{savedTemplate.templateDescription || 'N/A'}</td>
-                            <td>{savedTemplate.savedBy || 'N/A'}</td>
+                            <td>{savedTemplate.userId?.username || 'N/A'}</td>
                             <td>{new Date(savedTemplate.savedAt).toLocaleDateString() || 'N/A'}</td>
                         </tr>
                     ))}

@@ -15,8 +15,9 @@ exports.getReportTemplates = async (req, res) => {
 // Get report data for saved templates
 exports.getReportSavedTemplates = async (req, res) => {
     try {
-        const savedTemplates = await SavedTemplate.find({});
-        res.json(savedTemplates);
+// Populate the 'savedBy' field with 'username' from the User collection
+const savedTemplates = await SavedTemplate.find({}).populate('userId', 'username');
+res.json(savedTemplates);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
