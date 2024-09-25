@@ -14,10 +14,24 @@ const UserTemplateSelection = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [loggedInUserId, setLoggedInUserId] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [categories, setCategories] = useState([]); // State for categories
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/categories', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setCategories(response.data);
+      } catch (error) {
+        setError('Error fetching categories');
+        console.error('Error fetching categories:', error.response ? error.response.data : error.message);
+      }
+    };
 
     const fetchLoggedInUser = async () => {
       try {
@@ -69,6 +83,7 @@ const UserTemplateSelection = () => {
     const fetchData = async () => {
       setLoading(true);
       await Promise.all([
+        fetchCategories(), // Fetch categories
         fetchLoggedInUser(),
         fetchTemplates(),
         fetchMostUsedTemplates(),
@@ -83,7 +98,8 @@ const UserTemplateSelection = () => {
   const getRandomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 
   const filteredTemplates = templates.filter(template =>
-    template.templateName.toLowerCase().includes(searchTerm.toLowerCase())
+    template.templateName.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    (selectedCategory ? template.category === selectedCategory : true)
   );
 
   if (loading) {
@@ -110,7 +126,23 @@ const UserTemplateSelection = () => {
             className="search-input"
           />
 
-          <h3>Most Used by You</h3>
+          {/* Category Filter Dropdown */}
+          <div>
+            <label>Filter by Category:</label>
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              <option value="">All Categories</option>
+              {categories.map(category => (
+                <option key={category._id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <h3>Recently Used</h3>
           <div className="template-cards">
             {userMostUsedTemplates.length > 0 ? (
               userMostUsedTemplates.map((template) => {
@@ -125,36 +157,12 @@ const UserTemplateSelection = () => {
                     onClick={() => navigate(`/preview-template/${template._id}`)}
                     style={{ backgroundColor: getRandomColor() }}
                   >
-                    <div className="usage-count">
-                      {currentUserUsage ? currentUserUsage.count : 0} times
-                    </div>
                     <h3>{template.templateName}</h3>
                   </div>
                 );
               })
             ) : (
               <p>No templates used by you found.</p>
-            )}
-          </div>
-
-          <h3>Most Used Globally</h3>
-          <div className="template-cards">
-            {mostUsedTemplates.length > 0 ? (
-              mostUsedTemplates.map((template) => (
-                <div
-                  key={template._id}
-                  className="template-card"
-                  onClick={() => navigate(`/preview-template/${template._id}`)}
-                  style={{ backgroundColor: getRandomColor() }}
-                >
-                  <div className="usage-count">
-                    {template.usageCount} times
-                  </div>
-                  <h3>{template.templateName}</h3>
-                </div>
-              ))
-            ) : (
-              <p>No globally popular templates found.</p>
             )}
           </div>
 

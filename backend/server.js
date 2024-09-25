@@ -39,6 +39,7 @@ const savedTemplatesRoute = require('./routes/savedTemplates');
 const userRoutes = require('./routes/userRoutes'); // Import user routes
 const issuedTemplatesRoutes = require('./routes/issuedTemplates'); // Updated route import
 const reportRoutes = require('./routes/reportRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/company', companyRoutes);
@@ -49,6 +50,7 @@ app.use('/api/saved-templates', savedTemplatesRoute);
 app.use('/api/users', userRoutes); // For fetching logged-in user's info
 app.use('/api/issued-templates', issuedTemplatesRoutes); // Updated route use
 app.use('/api', reportRoutes);
+app.use('/api/categories', categoryRoutes);
 
 // Start the server
 app.listen(PORT, () => {

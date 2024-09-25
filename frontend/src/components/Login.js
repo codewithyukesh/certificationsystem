@@ -108,7 +108,7 @@ const Login = () => {
       </div>
       <div className="right-side">
         <h2>Certification System</h2>
-        <p>Efficiency and Excellence in Certification</p>
+        <p>Streamlining Certification Processes</p>
         <form className="login-form" onSubmit={handleSubmit}>
           <label htmlFor="username">Username:</label>
           <input

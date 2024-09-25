@@ -11,17 +11,26 @@
     justify-content: center;
     z-index: 1000;
   }
-  
   .modal-content {
     background: white;
     padding: 20px;
     border-radius: 5px;
-    max-width: 90%;
-    max-height: 90%;
-    overflow-y: auto;
+    max-width: auto%;
+    min-height: 100vh;
+    overflow-y: auto; /* Allows vertical scrolling */
+    overflow-x: auto; /* Allows horizontal scrolling */
     position: relative;
-  }
-  
+    white-space: nowrap; /* Prevents text from wrapping, allowing horizontal overflow */
+}
+
+.preview-content {
+  overflow-x: auto; /* Enable horizontal scrolling for preview content */
+  white-space: nowrap; /* Keeps the content in a single line for horizontal scrolling */
+  min-width: 90%;  
+  overflow-y: auto; /* Allows vertical scrolling */
+}
+
+ 
   .modal-close {
     position: absolute;
     top: 10px;
@@ -33,9 +42,10 @@
   }
   
   .a4-format {
-    width: 210mm;
-    height: 297mm;
+    width: 1000px;
+    /* height: 297mm; */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    overflow-y: hidden;
+    overflow-x: auto;
+    overflow-y: auto; /* Allows vertical scrolling */
   }
   

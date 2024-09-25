@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // Ensure this is imported
+import 'react-quill/dist/quill.snow.css';
 import Header from './Header';
 import Footer from './Footer';
 import Sidebar from './Sidebar';
@@ -24,11 +24,27 @@ const AddTemplate = () => {
   const [content, setContent] = useState('');
   const [error, setError] = useState('');
   const [placeholders, setPlaceholders] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [categories, setCategories] = useState([]); // State for categories
   const navigate = useNavigate();
+
+  // Fetch categories from the API
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/categories'); // Replace with your API endpoint
+        setCategories(response.data); // Assuming the response is an array of categories
+      } catch (err) {
+        console.error('Error fetching categories:', err);
+        setError('Failed to load categories.');
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const token = localStorage.getItem('token'); // Retrieve token from local storage
 
     try {
@@ -36,14 +52,13 @@ const AddTemplate = () => {
       const extractedPlaceholders = extractPlaceholders(content);
       const response = await axios.post(
         'http://localhost:5000/api/templates',
-        { templateName, content, placeholders: extractedPlaceholders },
-        { headers: { Authorization: `Bearer ${token}` } } // Include token in headers
+        { templateName, content, placeholders: extractedPlaceholders, category: selectedCategory },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       console.log('Template added successfully:', response.data);
-      // Clear form or redirect as needed
       navigate('/templates'); // Redirect to templates list page or any other desired page
     } catch (err) {
-      console.error('Error adding template:', err.response ? err.response.data : err.message); // Log detailed error
+      console.error('Error adding template:', err.response ? err.response.data : err.message);
       setError(err.response ? err.response.data.message : 'Error adding template');
     }
   };
@@ -87,12 +102,26 @@ const AddTemplate = () => {
               />
             </div>
             <div>
+              <label>Category:</label>
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                required
+              >
+                <option value="">Select a category</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
               <label>Content:</label>
               <ReactQuill
                 value={content}
                 onChange={(newContent) => {
                   setContent(newContent);
-                  // Update placeholders when content changes
                   setPlaceholders(extractPlaceholders(newContent));
                 }}
                 theme="snow"

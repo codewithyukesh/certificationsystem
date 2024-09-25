@@ -3,7 +3,7 @@ const { extractPlaceholders } = require('../utils/templateUtils');
 
 // Add a new template
 const addTemplate = async (req, res) => {
-  const { templateName, content } = req.body;
+  const { templateName, content, category } = req.body; // Accept category
   const placeholders = extractPlaceholders(content);
 
   try {
@@ -11,7 +11,8 @@ const addTemplate = async (req, res) => {
       templateName,
       content,
       placeholders,
-      createdBy: req.user.username
+      createdBy: req.user.username,
+      category, // Save the category
     });
 
     await newTemplate.save();
@@ -48,20 +49,34 @@ const incrementUsage = async (templateId, userId) => {
   }
 };
 
-// Get all templates
+// Get all templates (with optional category filter)
 const getTemplates = async (req, res) => {
+  const { category } = req.query; // Optional category filter
+
   try {
-    const templates = await Template.find();
+    let query = {};
+    if (category) {
+      query.category = category; // Filter by category if provided
+    }
+
+    const templates = await Template.find(query);
     res.status(200).json(templates);
   } catch (error) {
     res.status(500).json({ message: 'Error retrieving templates', error: error.message });
   }
 };
 
-// Get most used templates globally
+// Get most used templates globally (with optional category filter)
 const getMostUsedTemplates = async (req, res) => {
+  const { category } = req.query; // Optional category filter
+
   try {
-    const templates = await Template.find({ usageCount: { $gt: 0 } })
+    let query = { usageCount: { $gt: 0 } };
+    if (category) {
+      query.category = category; // Filter by category if provided
+    }
+
+    const templates = await Template.find(query)
       .sort({ usageCount: -1 })
       .limit(10);
     res.status(200).json(templates);
@@ -96,13 +111,13 @@ const getUserMostUsedTemplates = async (req, res) => {
 
 // Update a template
 const updateTemplate = async (req, res) => {
-  const { templateName, content } = req.body;
+  const { templateName, content, category } = req.body; // Accept category
   const { id } = req.params;
 
   try {
     const updatedTemplate = await Template.findByIdAndUpdate(
       id,
-      { templateName, content },
+      { templateName, content, category }, // Update category
       { new: true, runValidators: true }
     );
 
@@ -158,6 +173,16 @@ const useTemplate = async (req, res) => {
   }
 };
 
+// Get all distinct categories
+const getCategories = async (req, res) => {
+  try {
+    const categories = await Template.distinct('category');
+    res.status(200).json(categories);
+  } catch (error) {
+    res.status(500).json({ message: 'Error retrieving categories', error: error.message });
+  }
+};
+
 module.exports = {
   addTemplate,
   getTemplates,
@@ -167,5 +192,6 @@ module.exports = {
   updateTemplate,
   deleteTemplate,
   getTemplateById,
-  useTemplate, // Export the useTemplate function
+  useTemplate,
+  getCategories, // Export getCategories for fetching all distinct categories
 };

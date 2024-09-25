@@ -24,6 +24,14 @@ const templateSchema = new mongoose.Schema({
       count: { type: Number, default: 0 }, // Usage count per user
     },
   ],
+  category: {
+    type: String, // Single category, or use [String] for multiple categories
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now, // Set current date as default
+  },
 });
 
 const Template = mongoose.model("Template", templateSchema);

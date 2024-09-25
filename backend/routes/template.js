@@ -8,21 +8,25 @@ const {
   getTemplateById, 
   getMostUsedTemplates, 
   getUserMostUsedTemplates,
-  useTemplate // Import the useTemplate function
+  useTemplate, // Import the useTemplate function
+  getCategories // Import getCategories to fetch categories
 } = require('../controllers/templateController');
 const authenticateToken = require('../middleware/authMiddleware');
 
 // Add a new template
 router.post('/', authenticateToken, addTemplate);
 
-// Get all templates
+// Get all templates (with optional category filter)
 router.get('/', authenticateToken, getTemplates);
 
-// Get most used templates globally
+// Get most used templates globally (with optional category filter)
 router.get('/most-used', authenticateToken, getMostUsedTemplates);
 
 // Get user-specific most used templates
 router.get('/user-most-used', authenticateToken, getUserMostUsedTemplates);
+
+// Get distinct categories
+router.get('/categories', authenticateToken, getCategories); // New route for fetching all distinct categories
 
 // Get template by ID
 router.get('/:id', authenticateToken, getTemplateById);

@@ -97,8 +97,13 @@
 .right-side p {
   margin-bottom: 20px;
   font-size: 1em;
+margin-left: 7em;
+
+/* /* text-align: center; */
+
 }
 
+ 
 .login-form {
   display: flex;
   flex-direction: column;
