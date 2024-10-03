@@ -7,7 +7,7 @@ import Sidebar from './Sidebar';
 import './UserTemplateSelection.css';
 
 const UserTemplateSelection = () => {
-  const [templates, setTemplates] = useState([]);
+  const [templates, setTemplates] = useState([]); // Initialize as an empty array
   const [mostUsedTemplates, setMostUsedTemplates] = useState([]);
   const [userMostUsedTemplates, setUserMostUsedTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,7 +15,7 @@ const UserTemplateSelection = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loggedInUserId, setLoggedInUserId] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [categories, setCategories] = useState([]); // State for categories
+  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const UserTemplateSelection = () => {
         const response = await axios.get('http://localhost:5000/api/templates', {
           headers: { Authorization: `Bearer ${token}` }
         });
-        setTemplates(response.data);
+        setTemplates(response.data || []); // Ensure the data is always an array
       } catch (error) {
         setError('Error fetching templates');
         console.error('Error fetching templates:', error.response ? error.response.data : error.message);
@@ -61,7 +61,7 @@ const UserTemplateSelection = () => {
         const response = await axios.get('http://localhost:5000/api/templates/most-used', {
           headers: { Authorization: `Bearer ${token}` }
         });
-        setMostUsedTemplates(response.data);
+        setMostUsedTemplates(response.data || []); // Ensure the data is always an array
       } catch (error) {
         setError('Error fetching most used templates globally');
         console.error('Error fetching most used templates:', error.response ? error.response.data : error.message);
@@ -73,7 +73,7 @@ const UserTemplateSelection = () => {
         const response = await axios.get('http://localhost:5000/api/templates/user-most-used', {
           headers: { Authorization: `Bearer ${token}` }
         });
-        setUserMostUsedTemplates(response.data);
+        setUserMostUsedTemplates(response.data || []); // Ensure the data is always an array
       } catch (error) {
         setError('Error fetching most used templates by user');
         console.error('Error fetching most used templates by user:', error.response ? error.response.data : error.message);
@@ -83,7 +83,7 @@ const UserTemplateSelection = () => {
     const fetchData = async () => {
       setLoading(true);
       await Promise.all([
-        fetchCategories(), // Fetch categories
+        fetchCategories(),
         fetchLoggedInUser(),
         fetchTemplates(),
         fetchMostUsedTemplates(),
@@ -95,12 +95,51 @@ const UserTemplateSelection = () => {
     fetchData();
   }, []);
 
+  // Use search API whenever searchTerm changes
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    const searchTemplates = async () => {
+      if (searchTerm.trim() === '') {
+        // If the search term is empty, fetch all templates again
+        await fetchTemplates(); // You might want to create this function separately
+      } else {
+        try {
+          const response = await axios.get(`http://localhost:5000/api/templates/search?templateName=${searchTerm}`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setTemplates(response.data.data || []); // Ensure the data is always an array
+        } catch (error) {
+          setError('Error searching templates');
+          console.error('Error searching templates:', error.response ? error.response.data : error.message);
+        }
+      }
+    };
+
+    const fetchTemplates = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/templates', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setTemplates(response.data || []); // Ensure the data is always an array
+      } catch (error) {
+        setError('Error fetching templates');
+        console.error('Error fetching templates:', error.response ? error.response.data : error.message);
+      }
+    };
+
+    searchTemplates();
+  }, [searchTerm]);
+
   const getRandomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 
-  const filteredTemplates = templates.filter(template =>
-    template.templateName.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    (selectedCategory ? template.category === selectedCategory : true)
-  );
+  // Ensure templates is treated as an array and filter it
+  const filteredTemplates = Array.isArray(templates)
+    ? templates.filter(template =>
+        template.templateName.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (selectedCategory ? template.category === selectedCategory : true)
+      )
+    : [];
 
   if (loading) {
     return <div className="loading">Loading templates...</div>;
