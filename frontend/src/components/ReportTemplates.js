@@ -1,7 +1,11 @@
+// src/components/ReportTemplates.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { quickSort } from '../utils/quickSort'; // Import the QuickSort function
 import './ReportTemplates.css'; // Import CSS for ReportTemplates component
 
 const ReportTemplates = () => {
@@ -10,16 +14,21 @@ const ReportTemplates = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortField, setSortField] = useState('templateName');
     const [sortOrder, setSortOrder] = useState('asc');
+    const token = localStorage.getItem('token'); // Assuming token is stored in localStorage
+
+    const fetchTemplates = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/report-templates', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setReportData(response.data);
+        } catch (error) {
+            console.error('Error fetching templates:', error);
+        }
+    };
 
     useEffect(() => {
-        const fetchTemplates = async () => {
-            try {
-                const response = await axios.get('http://localhost:5000/api/report-templates');
-                setReportData(response.data);
-            } catch (error) {
-                console.error('Error fetching templates:', error);
-            }
-        };
+        fetchTemplates(); // Fetch all templates on initial load
 
         const fetchCompanyDetails = async () => {
             try {
@@ -30,27 +39,46 @@ const ReportTemplates = () => {
             }
         };
 
-        fetchTemplates();
-        fetchCompanyDetails();
-    }, []);
+        fetchCompanyDetails(); // Fetch company details on initial load
+    }, [token]); // Load templates and company details on component mount
 
-    const handleSearch = (data) => {
-        if (!searchTerm) return data;
+    useEffect(() => {
+        const searchTemplates = async () => {
+            if (searchTerm.trim() !== '') {
+                try {
+                    const response = await axios.get(`http://localhost:5000/api/templates/search?templateName=${searchTerm}`, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
 
-        return data.filter(template =>
-            template.templateName.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-    };
+                    if (response.data.data && response.data.data.length > 0) {
+                        setReportData(response.data.data);
+                    } else {
+                        setReportData([]);
+                        toast.error('No templates found for the search criteria.');
+                    }
+                } catch (error) {
+                    console.error('Error fetching templates:', error);
+                    toast.error('An error occurred while searching for templates.');
+                }
+            } else {
+                // Re-fetch all templates when searchTerm is empty
+                fetchTemplates();
+            }
+        };
 
+        searchTemplates();
+    }, [searchTerm, token]); // Run this effect when the searchTerm changes
+
+    // Updated handleSort function using QuickSort
     const handleSort = (data) => {
-        return data.sort((a, b) => {
-            const fieldA = a[sortField] ? a[sortField].toLowerCase() : '';
-            const fieldB = b[sortField] ? b[sortField].toLowerCase() : '';
-            return sortOrder === 'asc' ? (fieldA < fieldB ? -1 : 1) : (fieldA > fieldB ? -1 : 1);
-        });
+        const sortedData = quickSort(data, sortField, sortOrder);
+        console.log( sortedData);
+        return sortedData;
+        
+        
     };
 
-    const filteredData = handleSort(handleSearch(reportData));
+    const filteredData = handleSort(reportData); // Use QuickSort for filtered data
 
     const exportToCSV = () => {
         const csvRows = [
@@ -142,6 +170,7 @@ const ReportTemplates = () => {
 
     return (
         <div>
+            <ToastContainer /> {/* Toast container for notifications */}
             <h2>Templates Report</h2>
             <input
                 type="text"
@@ -173,14 +202,20 @@ const ReportTemplates = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredData.map((template, index) => (
-                        <tr key={template._id}>
-                            <td>{index + 1}</td>
-                            <td>{template.templateName || 'N/A'}</td>
-                            <td>{template.createdBy || 'N/A'}</td>
-                            <td>{new Date(template.createdAt).toLocaleDateString() || 'N/A'}</td>
+                    {filteredData.length > 0 ? (
+                        filteredData.map((template, index) => (
+                            <tr key={template._id}>
+                                <td>{index + 1}</td>
+                                <td>{template.templateName || 'N/A'}</td>
+                                <td>{template.createdBy || 'N/A'}</td>
+                                <td>{new Date(template.createdAt).toLocaleDateString() || 'N/A'}</td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="4">No templates found.</td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
             </table>
         </div>

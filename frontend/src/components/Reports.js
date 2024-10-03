@@ -14,11 +14,11 @@ const Reports = () => {
         switch (selectedReportType) {
             case 'users':
                 return <ReportUsers />;
-            case 'templates':
-                return <ReportTemplates />;
             case 'savedtemplates':
-            default:
                 return <ReportSavedTemplates />;
+            case 'ReportTemplates':
+            default:
+                return <ReportTemplates />;
         }
     };
 
@@ -28,8 +28,8 @@ const Reports = () => {
             <div className="main-content">
                 <Header />
                 <div className="report-buttons">
-    <button onClick={() => setSelectedReportType('savedtemplates')} className="report-button">Saved Templates</button>
-    <button onClick={() => setSelectedReportType('templates')} className="report-button">Templates</button>
+                <button onClick={() => setSelectedReportType('templates')} className="report-button">Templates</button>
+                <button onClick={() => setSelectedReportType('savedtemplates')} className="report-button">Saved Templates</button>
     <button onClick={() => setSelectedReportType('users')} className="report-button">Users</button>
 </div>
 
